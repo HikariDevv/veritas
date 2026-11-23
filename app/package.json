@@ -1,0 +1,13 @@
+{
+  "name": "veritas-desktop",
+  "version": "1.0.0",
+  "description": "Veritas Cross-Platform Minecraft Screenshare Forensic Desktop Suite",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^32.2.0"
+  }
+}

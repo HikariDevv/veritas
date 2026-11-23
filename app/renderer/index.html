@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Veritas</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="titlebar">
+    <div class="tb-left">
+      <svg class="tb-logo" width="18" height="18" viewBox="0 0 32 32" fill="none">
+        <rect x="1" y="1" width="30" height="30" rx="7" fill="#18181b" stroke="#3f3f46" stroke-width="1.2"/>
+        <polygon points="7,8 11.7,8 16,19.8 20.3,8 25,8 17.8,24.6 14.2,24.6" fill="#fafafa"/>
+        <circle cx="24.5" cy="22.8" r="1.9" fill="#f59e0b"/>
+      </svg>
+      <span class="tb-name">veritas</span>
+      <span class="tb-sep">/</span>
+      <span class="tb-sys" id="sysTag">win32</span>
+    </div>
+    <div class="tb-controls">
+      <button id="minBtn" aria-label="Minimize">—</button>
+      <button id="maxBtn" aria-label="Maximize">□</button>
+      <button id="closeBtn" class="close" aria-label="Close">✕</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <svg class="brand-svg" width="34" height="34" viewBox="0 0 32 32" fill="none">
+          <rect x="1" y="1" width="30" height="30" rx="8" fill="#141417" stroke="#32323a" stroke-width="1.2"/>
+          <polygon points="7,8 11.7,8 16,19.8 20.3,8 25,8 17.8,24.6 14.2,24.6" fill="#fafafa"/>
+          <circle cx="24.5" cy="22.8" r="1.9" fill="#f59e0b"/>
+        </svg>
+        <div class="brand-text">
+          <strong>veritas</strong>
+          <span>ss forensics</span>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <div class="nav-group">Scanner</div>
+        <button class="nav-btn active" data-view="v-home">
+          <span class="nav-l"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Overview</span>
+        </button>
+        <button class="nav-btn" data-view="v-find">
+          <span class="nav-l"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Findings</span>
+          <span class="cnt" id="c-find">0</span>
+        </button>
+        <button class="nav-btn" data-view="v-ram">
+          <span class="nav-l"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/></svg>RAM Memory</span>
+          <span class="cnt" id="c-ram">0</span>
+        </button>
+        <button class="nav-btn" data-view="v-time">
+          <span class="nav-l"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>SS Timeline</span>
+          <span class="cnt" id="c-time">0</span>
+        </button>
+        <button class="nav-btn" data-view="v-rep">
+          <span class="nav-l"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6"/></svg>Replace &amp; Configs</span>
+          <span class="cnt" id="c-rep">0</span>
+        </button>
+
+        <div class="nav-group">Forensics</div>
+        <button class="nav-btn" data-view="v-exec">
+          <span class="nav-l"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 17l6-6-6-6M12 19h8"/></svg>Execution Traces</span>
+          <span class="cnt" id="c-exec">0</span>
+        </button>
+        <button class="nav-btn" data-view="v-bypass">
+          <span class="nav-l"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Bypass &amp; Tamper</span>
+          <span class="cnt" id="c-byp">0</span>
+        </button>
+        <button class="nav-btn" data-view="v-svc">
+          <span class="nav-l"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="8" rx="2"/><rect x="2" y="13" width="20" height="8" rx="2"/></svg>Services</span>
+          <span class="cnt" id="c-svc">0</span>
+        </button>
+        <button class="nav-btn" data-view="v-trash">
+          <span class="nav-l"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>Recycle Bin</span>
+          <span class="cnt" id="c-trash">0</span>
+        </button>
+        <button class="nav-btn" data-view="v-usb">
+          <span class="nav-l"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v14M7 7l5-5 5 5M6 16h12v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4z"/></svg>USB History</span>
+          <span class="cnt" id="c-usb">0</span>
+        </button>
+        <button class="nav-btn" data-view="v-br">
+          <span class="nav-l"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg>Browser &amp; DNS</span>
+          <span class="cnt" id="c-br">0</span>
+        </button>
+        <button class="nav-btn" data-view="v-env">
+          <span class="nav-l"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>VM, VPN &amp; Alts</span>
+          <span class="cnt" id="c-alts">0</span>
+        </button>
+
+        <div class="nav-group">Tools</div>
+        <button class="nav-btn" data-view="v-ai">
+          <span class="nav-l"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Veritas AI</span>
+        </button>
+        <button class="nav-btn" data-view="v-proc">
+          <span class="nav-l"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Live Processes</span>
+          <span class="cnt" id="c-proc">0</span>
+        </button>
+        <button class="nav-btn" data-view="v-insp">
+          <span class="nav-l"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>File Inspector</span>
+        </button>
+      </nav>
+
+      <div class="side-foot" id="sideMeta">idle</div>
+    </aside>
+
+    <main class="main">
+      <section id="v-home" class="view active">
+        <div class="page-head">
+          <div>
+            <h1>Screenshare Scanner</h1>
+            <p class="subtitle">Full SS Scan inspects current session since PC boot (12 stages + javaw.exe Live RAM + UserAssist + Defender Exclusions).</p>
+          </div>
+          <div class="verdict-pill" id="verdictBox">
+            <span class="dot" id="verdictDot"></span>
+            <span id="gaugeVerdict">IDLE</span>
+            <span class="score-num" id="gaugeNum">—/100</span>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn primary" id="startFullBtn">Full SS Scan</button>
+          <button class="btn" id="startDeepBtn">Deep Bytecode Scan</button>
+          <button class="btn" id="ramOnlyBtn">Scan Live RAM</button>
+          <button class="btn" id="customScanBtn">Scan Folder</button>
+          <button class="btn" id="openModsBtn">Open Mods Folder</button>
+          <div class="spacer"></div>
+          <div class="export-group hidden" id="exportRow">
+            <button class="btn" id="copySummaryBtn">Copy Summary</button>
+            <button class="btn" id="exportTxtBtn">Export .TXT Log</button>
+          </div>
+        </div>
+
+        <div class="progress-wrap hidden" id="progWrap">
+          <div class="prog-top">
+            <span id="progLabel">Starting engine...</span>
+            <span id="progPct">0%</span>
+          </div>
+          <div class="prog-track"><div class="prog-bar" id="progBar"></div></div>
+        </div>
+
+        <div class="summary-banner hidden" id="summaryBanner">
+          <div class="sum-left">
+            <div class="sum-top">
+              <span class="sev-pill" id="sumBadge">CLEAN</span>
+              <strong id="summaryTitle"></strong>
+            </div>
+            <p id="summaryDesc"></p>
+            <div class="sum-meta" id="sumMeta"></div>
+          </div>
+          <button class="btn" id="askAiQuickBtn">Ask Veritas AI &rarr;</button>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat"><span>MC Instance</span><strong id="k-inst">—</strong></div>
+          <div class="stat"><span>Findings</span><strong id="k-find">—</strong></div>
+          <div class="stat"><span>RAM Hits</span><strong id="k-ram">—</strong></div>
+          <div class="stat"><span>Services</span><strong id="k-svc">—</strong></div>
+          <div class="stat"><span>Defender Excl.</span><strong id="k-excl">—</strong></div>
+          <div class="stat"><span>Recycle Bin / USB</span><strong id="k-trash">—</strong></div>
+        </div>
+
+        <div class="section-block">
+          <div class="block-head">
+            <h2>Priority Findings</h2>
+            <button class="link-btn" id="viewAllBtn">View all &rarr;</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Severity</th><th>Category</th><th>Finding &amp; Path</th><th>Evidence</th><th>Actions</th></tr></thead>
+              <tbody id="homeFindBody"><tr><td colspan="5" class="empty">Click "Full SS Scan" to start inspection.</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="v-find" class="view">
+        <div class="view-head">
+          <h2>All Findings</h2>
+          <div class="toolbar">
+            <button class="tab active" data-sev="all">All</button>
+            <button class="tab" data-sev="critical">Critical</button>
+            <button class="tab" data-sev="high">High</button>
+            <button class="tab" data-sev="suspicious">Suspicious</button>
+            <button class="tab" data-sev="info">Info</button>
+            <input class="search" id="findSearch" placeholder="Filter by path, category, memory signature...">
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Severity</th><th>Category</th><th>Finding &amp; Path</th><th>Evidence</th><th>Actions</th></tr></thead>
+            <tbody id="findBody"><tr><td colspan="5" class="empty">Run a scan to view findings.</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="v-ram" class="view">
+        <div class="view-head">
+          <div class="block-head">
+            <div>
+              <h2>Live RAM Memory Forensics (javaw.exe &amp; explorer.exe)</h2>
+              <p class="subtitle">Scans private committed RAM via Win32 VirtualQueryEx + ReadProcessMemory for manual-mapped DLLs and residual C++ cheat strings.</p>
+            </div>
+            <button class="btn" id="refreshRamBtn">Scan RAM Now</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Status</th><th>Process</th><th>PID</th><th>Private Regions</th><th>Manual-Mapped PE</th><th>Detected Memory Signatures</th></tr></thead>
+            <tbody id="ramBody"><tr><td colspan="6" class="empty">Run a scan or click "Scan RAM Now".</td></tr></tbody>
+          </table>
+        </div>
+        <div class="section-block" style="margin-top:20px">
+          <div class="block-head"><h2>Active Minecraft JVM Instance</h2></div>
+          <div id="instBody" class="panel muted">Run a scan to inspect active Minecraft processes.</div>
+        </div>
+      </section>
+
+      <section id="v-time" class="view">
+        <div class="view-head">
+          <h2>SS Activity Timeline (Since PC Boot)</h2>
+          <p class="subtitle">Chronological feed of PC boot, executed binaries, Minecraft launch, Recycle Bin deletions, and tamper events.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Timestamp</th><th>Type</th><th>Event</th><th>Details</th></tr></thead>
+            <tbody id="timeBody"><tr><td colspan="4" class="empty">Run a scan to build the session timeline.</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="v-rep" class="view">
+        <div class="view-head">
+          <h2>Replace Method &amp; Configs</h2>
+          <p class="subtitle">Detects timestamp tampering, NTFS Zone.Identifier mismatches, modified JAR manifests, and hidden cheat configs.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Severity</th><th>Category</th><th>Finding &amp; Path</th><th>Evidence</th><th>Actions</th></tr></thead>
+            <tbody id="repBody"><tr><td colspan="5" class="empty">Run a scan to check for replaced files and hidden configs.</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="v-exec" class="view">
+        <div class="view-head">
+          <div class="block-head">
+            <div>
+              <h2>Current Session Execution Traces (Since PC Boot)</h2>
+              <p class="subtitle">UserAssist + Prefetch + Recent executions since PC boot, highlighting self-destructed binaries deleted after running.</p>
+            </div>
+            <button class="btn" id="refreshExecBtn">Refresh</button>
+          </div>
+          <div class="toolbar">
+            <input class="search" id="execSearch" placeholder="Search executed programs...">
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Status</th><th>Program</th><th>Last Run</th><th>Runs</th><th>Disk</th><th>Executed Path</th><th>Action</th></tr></thead>
+            <tbody id="pcaBody"><tr><td colspan="7" class="empty">Run a scan or click "Refresh".</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="v-bypass" class="view">
+        <div class="view-head">
+          <div class="block-head">
+            <div>
+              <h2>Bypass &amp; Anti-Tamper Checks</h2>
+              <p class="subtitle">Windows Defender Exclusions, EventLog clears (ID 104), and System Clock changes (ID 1) since PC boot.</p>
+            </div>
+            <button class="btn" id="refreshBypassBtn">Re-Check</button>
+          </div>
+        </div>
+        <div class="section-block">
+          <div class="block-head"><h2>Windows Defender Exclusions</h2></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Type</th><th>Excluded Path / Process / Extension</th><th>Action</th></tr></thead>
+              <tbody id="exclBody"><tr><td colspan="3" class="empty">Run a scan or click "Re-Check".</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="section-block" style="margin-top:20px">
+          <div class="block-head"><h2>EventLog Wipe &amp; Clock Tamper (Since Boot)</h2></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Event ID</th><th>Type</th><th>Timestamp</th><th>Summary</th></tr></thead>
+              <tbody id="tamperBody"><tr><td colspan="4" class="empty">Run a scan or click "Re-Check".</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="v-svc" class="view">
+        <div class="view-head">
+          <h2>Windows Services</h2>
+          <p class="subtitle">Stopped forensic services (SysMain, EventLog, DPS, PcaSvc, DiagTrack, BAM) can indicate manual trace clearing.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Service</th><th>Status</th><th>Role</th></tr></thead>
+            <tbody id="svcBody"><tr><td colspan="3" class="empty">Run a scan to audit system services.</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="v-trash" class="view">
+        <div class="view-head">
+          <h2>Recycle Bin &amp; 1-Click Recovery (Since PC Boot)</h2>
+          <p class="subtitle">Recovers deleted files directly to Desktop\veritas-recovered\ for inspection.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>ID</th><th>File</th><th>Deleted</th><th>Size</th><th>Original Path</th><th>Action</th></tr></thead>
+            <tbody id="trashBody"><tr><td colspan="6" class="empty">Run a scan to index deleted files.</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="v-usb" class="view">
+        <div class="view-head">
+          <h2>USB Storage History</h2>
+          <p class="subtitle">Connected and previously disconnected USB storage devices.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>State</th><th>Device</th><th>Drive</th><th>Serial</th></tr></thead>
+            <tbody id="usbBody"><tr><td colspan="4" class="empty">Run a scan to inspect USB devices.</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="v-br" class="view">
+        <div class="view-head">
+          <h2>Browser History &amp; DNS Cache</h2>
+          <p class="subtitle">Recovers cheat domains from Chrome, Edge, Brave, Opera, Firefox, Windows DNS Cache, and macOS Quarantine DB.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Source</th><th>Target</th><th>Notes</th></tr></thead>
+            <tbody id="brBody"><tr><td colspan="3" class="empty">Run a scan to inspect browser and DNS records.</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="v-env" class="view">
+        <div class="view-head"><h2>Environment, VM/VPN &amp; Alts</h2></div>
+        <div id="envBody" class="panel muted">Run a scan to inspect environment and accounts.</div>
+      </section>
+
+      <section id="v-ai" class="view">
+        <div class="view-head">
+          <h2>Veritas AI Assistant</h2>
+          <p class="subtitle">Ask questions in English or Spanish about javaw.exe RAM, cheats executed since boot, deleted files, bypasses, or final SS verdict.</p>
+        </div>
+        <div class="faq-grid">
+          <button class="faq-chip" data-q="What cheat or injectable ran in this session or in javaw.exe RAM?">What cheat or injectable ran in this session / RAM?</button>
+          <button class="faq-chip" data-q="Was anything injected into the Minecraft instance?">Was anything injected into Minecraft?</button>
+          <button class="faq-chip" data-q="What files were deleted since PC boot?">What files were deleted since PC boot?</button>
+          <button class="faq-chip" data-q="Are there any bypasses, stopped services, or Defender exclusions?">Any bypasses, stopped services, or Defender exclusions?</button>
+          <button class="faq-chip" data-q="Show Replace Method or modified JAR traces">Show Replace Method or modified JAR traces</button>
+          <button class="faq-chip" data-q="Should I ban this player? Full SS verdict">Should I ban this player? (Full Verdict)</button>
+        </div>
+        <div class="ai-chat" id="aiChat">
+          <div class="ai-msg bot">
+            <span class="ai-tag">VERITAS AI</span>
+            <strong>Ready for Screenshare Q&amp;A</strong>
+            <p>Click a frequent question above or ask anything (e.g. "se inyecto algo en javaw.exe?", "que borro hoy?", "ban o clean?").</p>
+          </div>
+        </div>
+        <form class="ai-form" id="aiForm">
+          <input class="search" id="aiInput" placeholder="Ask Veritas AI about this session...">
+          <button class="btn primary" type="submit">Ask</button>
+        </form>
+      </section>
+
+      <section id="v-proc" class="view">
+        <div class="view-head">
+          <div class="block-head">
+            <div>
+              <h2>Live Running Processes</h2>
+              <p class="subtitle">Flags processes running from Temp/Downloads or matching cheat/macro keywords.</p>
+            </div>
+            <button class="btn" id="refreshProcBtn">Refresh Processes</button>
+          </div>
+          <div class="toolbar">
+            <input class="search" id="procSearch" placeholder="Filter by process name, PID, or path...">
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Status</th><th>Process</th><th>PID</th><th>RAM</th><th>Started</th><th>Executable Path</th><th>Action</th></tr></thead>
+            <tbody id="procBody"><tr><td colspan="7" class="empty">Run a scan or click "Refresh Processes".</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="v-insp" class="view">
+        <div class="view-head">
+          <h2>Single File Inspector</h2>
+          <p class="subtitle">Drop or select any .jar, .dll, or .exe to verify SHA-256, Replace Method anomaly, NTFS Zone.Identifier, Authenticode signature, and VirusTotal.</p>
+        </div>
+        <div class="drop-zone" id="dropZone">
+          <div>
+            <strong>Drop a file here or click Select File</strong>
+            <p class="muted">Computes SHA-256, checks Created vs Modified dates, Zone.Identifier URL, and digital signature.</p>
+          </div>
+          <button class="btn primary" id="pickInspectBtn">Select File</button>
+        </div>
+        <div id="inspResult" class="panel hidden" style="margin-top:14px"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="ai.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
