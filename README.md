@@ -33,9 +33,9 @@ All execution traces, Recycle Bin deletions, and tamper checks are filtered agai
 | Module | Detection Scope | Win | macOS | Linux |
 | :--- | :--- | :---: | :---: | :---: |
 | **Live RAM Memory** | Manual-mapped PE DLLs in private executable memory and residual C++ cheat strings inside `javaw.exe`, `GTA5.exe`, `FiveM`, `RobloxPlayerBeta.exe`, and `explorer.exe` (`VirtualQueryEx` + `ReadProcessMemory` / `/proc/pid/maps` / `lsof`) | Yes | Yes | Yes |
-| **Session Execution** | Current-session runs since PC boot via ROT13 `UserAssist` (exact timestamps + run count), `Prefetch`, and `Recent` — flags binaries deleted after execution | Yes | Yes | Yes |
+| **Session Execution** | Current-session runs since PC boot via ROT13 `UserAssist` (exact timestamps + run count), `Prefetch`, and `Recent`: flags binaries deleted after execution | Yes | Yes | Yes |
 | **Replace & Bytecode** | Modified JAR manifests, Created-vs-Modified timestamp mismatches, NTFS `Zone.Identifier` download URLs, and packed/unsigned binaries | Yes | Yes | Yes |
-| **Bypass & Services** | Audits 9 Windows forensic services (`SysMain`, `EventLog`, `DPS`, `PcaSvc`, `DiagTrack`, `Dnscache`, `BAM`, `DusmSvc`, `WinDefend`), Defender Exclusions, EventLog clears (`ID 104`), and Clock changes (`ID 1`) | Yes | — | — |
+| **Bypass & Services** | Audits 9 Windows forensic services (`SysMain`, `EventLog`, `DPS`, `PcaSvc`, `DiagTrack`, `Dnscache`, `BAM`, `DusmSvc`, `WinDefend`), Defender Exclusions, EventLog clears (`ID 104`), and Clock changes (`ID 1`) | Yes |: |: |
 | **Recycle Bin** | Parses `$I` / `$R` deletion metadata since PC boot with 1-click file recovery to `Desktop/veritas-recovered/` | Yes | Yes | Yes |
 | **USB History** | Connected and historically disconnected USB devices (`USBSTOR`) with serial numbers | Yes | Yes | Yes |
 | **Browser & DNS** | Chrome, Edge, Brave, Opera, Firefox history, Windows DNS Cache recovery, and macOS `QuarantineEventsV2` | Yes | Yes | Yes |
@@ -58,8 +58,8 @@ All execution traces, Recycle Bin deletions, and tamper checks are filtered agai
 
 ### Prebuilt Release
 Download from [**Releases v1.0.0**](https://github.com/HikariDevv/veritas/releases/tag/v1.0.0):
-- **`veritas-desktop-v1.0.0.zip`** — Electron Desktop App + Java Engine + Win32 RAM Scanner
-- **`veritas-1.0.0.jar`** — Standalone Java 17+ CLI engine
+- **`veritas-desktop-v1.0.0.zip`**: Electron Desktop App + Java Engine + Win32 RAM Scanner
+- **`veritas-1.0.0.jar`**: Standalone Java 17+ CLI engine
 
 ### Run Desktop App From Source
 Requires **Node.js 18+** and **Java 17+**.
